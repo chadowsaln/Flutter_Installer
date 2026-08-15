@@ -25,25 +25,29 @@ class SimpleLogPrinter extends LogPrinter {
   final LocalStorageService _localStorageService =
       locator<LocalStorageService>();
 
+  final PrettyPrinter _prettyPrinter = PrettyPrinter();
+
   @override
   List<String> log(LogEvent event) {
-    final String logFilePath = '${_localStorageService.appDocPath}';
+    final String? appDocPath = _localStorageService.appDocPath;
     final String logFileName =
         'flutter_installer_log_${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}.txt';
 
-    var color = PrettyPrinter.levelColors[event.level];
-    var emoji = PrettyPrinter.levelEmojis[event.level];
-    var message = '$emoji $className - ${event.message}';
+    AnsiColor? color = _prettyPrinter.levelColors?[event.level];
+    String? emoji = _prettyPrinter.levelEmojis?[event.level];
+    String message = '$emoji $className - ${event.message}';
 
-    File(
-      '$logFilePath\\$logFileName',
-    ).writeAsString(
-      '[${DateTime.now()}] - $message \n',
-      mode: FileMode.append,
-      flush: true,
-    );
+    if (appDocPath != null) {
+      File(
+        '$appDocPath${Platform.pathSeparator}$logFileName',
+      ).writeAsString(
+        '[${DateTime.now()}] - $message \n',
+        mode: FileMode.append,
+        flush: true,
+      );
+    }
 
-    print(color(message));
+    print(color != null ? color(message) : message);
 
     return [];
   }

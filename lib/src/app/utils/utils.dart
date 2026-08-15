@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 @lazySingleton
 class Utils {
@@ -28,22 +28,28 @@ class Utils {
   }
 
   Future<void> launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+
     if (!Platform.isWindows) {
-      if (await canLaunch(url)) {
-        await launch(url);
+      if (await launcher.canLaunchUrl(uri)) {
+        await launcher.launchUrl(uri, mode: launcher.LaunchMode.externalApplication);
       } else {
         throw 'Could not launch $url';
       }
     } else {
-      await launch(url);
+      await launcher.launchUrl(uri, mode: launcher.LaunchMode.externalApplication);
     }
   }
 
   String getAnythingAfterLastSlash(String text) {
     final RegExp getAnythingAfterLastSlash = RegExp('[^/]+\$');
-    RegExpMatch matches = getAnythingAfterLastSlash.firstMatch(text);
+    final RegExpMatch? matches = getAnythingAfterLastSlash.firstMatch(text);
 
-    return matches[0];
+    if (matches == null) {
+      return text;
+    }
+
+    return matches[0] ?? text;
   }
 
   String randomString(int length) {

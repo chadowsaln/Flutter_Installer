@@ -7,7 +7,7 @@ import 'package:flutter_installer/src/app/generated/locator/locator.dart';
 import 'package:flutter_installer/src/app/services/local_storage_service.dart';
 import 'package:flutter_installer/src/app/services/window_size_service.dart';
 
-main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Sets logging level
@@ -26,5 +26,5 @@ main() async {
   await locator<LocalStorageService>().initialize();
 
   // Runs the app :)
-  runApp(App());
+  runApp(const App());
 }

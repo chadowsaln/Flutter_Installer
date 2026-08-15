@@ -12,7 +12,7 @@ class CustomBaseViewModel extends BaseViewModel {
     await _windowSizeService.initialize();
   }
 
-  Future<void> fakeDelay({int seconds}) async {
+  Future<void> fakeDelay({int? seconds}) async {
     await Future.delayed(
       Duration(
         seconds: seconds ?? 1,

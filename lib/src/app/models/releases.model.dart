@@ -11,15 +11,15 @@ class Releases {
   final List<FlutterRelease> releases;
 
   const Releases({
-    @required this.baseUrl,
-    @required this.currentRelease,
-    @required this.releases,
+    required this.baseUrl,
+    required this.currentRelease,
+    required this.releases,
   });
 
   Releases copyWith({
-    String baseUrl,
-    CurrentRelease currentRelease,
-    List<FlutterRelease> releases,
+    String? baseUrl,
+    CurrentRelease? currentRelease,
+    List<FlutterRelease>? releases,
   }) {
     return Releases(
       baseUrl: baseUrl ?? this.baseUrl,
@@ -32,23 +32,25 @@ class Releases {
     return {
       'base_url': baseUrl,
       'current_release': currentRelease.toMap(),
-      'releases': releases?.map((x) => x.toMap())?.toList(),
+      'releases': releases.map((x) => x.toMap()).toList(),
     };
   }
 
   factory Releases.fromMap(Map<String, dynamic> map) {
     return Releases(
-      baseUrl: map['base_url'],
-      currentRelease: CurrentRelease.fromMap(map['current_release']),
-      releases: List<FlutterRelease>.from(
-          map['releases']?.map((x) => FlutterRelease.fromMap(x))),
+      baseUrl: map['base_url'] as String,
+      currentRelease:
+          CurrentRelease.fromMap(map['current_release'] as Map<String, dynamic>),
+      releases: (map['releases'] as List<dynamic>)
+          .map((x) => FlutterRelease.fromMap(x as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Releases.fromJson(String source) =>
-      Releases.fromMap(json.decode(source));
+      Releases.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() =>

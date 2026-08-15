@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
 
 import 'package:flutter_installer/src/app/models/flutter_installer_api/app_release.mode.dart';
 import 'package:flutter_installer/src/app/models/flutter_installer_api/latest_release.model.dart';
@@ -25,17 +22,17 @@ enum FlutterReleasePlatform {
 
 @lazySingleton
 class ApiService {
-  final Logger logger = getLogger('ApiService');
+  final logger = getLogger('ApiService');
 
   final String baseUrlForFlutterRelease =
       'https://storage.googleapis.com/flutter_infra/releases';
 
   final MyClient myClient = MyClient(http.Client());
 
-  Future getAllFlutterReleases(
+  Future<Releases?> getAllFlutterReleases(
     FlutterReleasePlatform platform,
   ) async {
-    Response response;
+    http.Response response;
     try {
       switch (platform) {
         case FlutterReleasePlatform.windows:
@@ -54,20 +51,28 @@ class ApiService {
           );
           break;
       }
-      Map<String, dynamic> data = json.decode(response.body);
+      Map<String, dynamic> data =
+          json.decode(response.body) as Map<String, dynamic>;
       Releases releases = Releases.fromMap(data);
 
       return releases;
     } catch (e) {
       logger.wtf(e.toString());
     }
+
+    return null;
   }
 
   Future<FlutterRelease> getLatestRelease({
-    @required FlutterChannel flutterChannel,
-    @required FlutterReleasePlatform platform,
+    required FlutterChannel flutterChannel,
+    required FlutterReleasePlatform platform,
   }) async {
-    final Releases releases = await getAllFlutterReleases(platform);
+    final Releases? releases = await getAllFlutterReleases(platform);
+
+    if (releases == null) {
+      throw StateError('Failed to load Flutter releases.');
+    }
+
     String hash;
 
     switch (flutterChannel) {
@@ -82,7 +87,7 @@ class ApiService {
         break;
     }
 
-    FlutterRelease latestFlutterRelease;
+    FlutterRelease? latestFlutterRelease;
 
     releases.releases.forEach((FlutterRelease flutterRelease) {
       if (flutterRelease.hash == hash) {
@@ -90,17 +95,22 @@ class ApiService {
       }
     });
 
-    return latestFlutterRelease;
+    if (latestFlutterRelease == null) {
+      throw StateError(
+          'No Flutter release found for hash $hash on channel ${convertFlutterChannelEnumToString(flutterChannel)}.');
+    }
+
+    return latestFlutterRelease!;
   }
 
   Future<GithubReleaseAsset> getLatestGitForWindowsRelease() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://api.github.com/repos/git-for-windows/git/releases/latest'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
     GithubRelease githubRelease = GithubRelease.fromMap(data);
 
     GithubReleaseAsset githubReleaseAsset = githubRelease.assets[2];
@@ -109,13 +119,13 @@ class ApiService {
   }
 
   Future<AppRelease> getLatestAndroidStudioRelease() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://flutter-installer-api.herokuapp.com/api/v1/latest_release'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
 
     LatestRelease latestRelease = LatestRelease.fromMap(data);
 
@@ -125,13 +135,13 @@ class ApiService {
   }
 
   Future<AppRelease> getLatestVisualStudioCodeRelease() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://flutter-installer-api.herokuapp.com/api/v1/latest_release'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
 
     LatestRelease latestRelease = LatestRelease.fromMap(data);
 
@@ -141,13 +151,13 @@ class ApiService {
   }
 
   Future<AppRelease> getLatestIntelliJIDEARelease() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://flutter-installer-api.herokuapp.com/api/v1/latest_release'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
 
     LatestRelease latestRelease = LatestRelease.fromMap(data);
 
@@ -157,13 +167,13 @@ class ApiService {
   }
 
   Future<ScriptRelease> getLatestAppendToPathScript() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://flutter-installer-api.herokuapp.com/api/v1/latest_release'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
 
     LatestRelease latestRelease = LatestRelease.fromMap(data);
 
@@ -173,13 +183,13 @@ class ApiService {
   }
 
   Future<ScriptRelease> getLatestDistScript() async {
-    Response response;
+    http.Response response;
     response = await myClient.get(
       Uri.parse(
           'https://flutter-installer-api.herokuapp.com/api/v1/latest_release'),
     );
 
-    Map<String, dynamic> data = json.decode(response.body);
+    Map<String, dynamic> data = json.decode(response.body) as Map<String, dynamic>;
 
     LatestRelease latestRelease = LatestRelease.fromMap(data);
 

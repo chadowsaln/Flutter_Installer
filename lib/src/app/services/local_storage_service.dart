@@ -5,18 +5,18 @@ import 'package:path_provider/path_provider.dart';
 
 @lazySingleton
 class LocalStorageService {
-  String _tempPath;
-  String get tempPath => _tempPath;
+  String? _tempPath;
+  String? get tempPath => _tempPath;
 
-  String _appDocPath;
-  String get appDocPath => _appDocPath;
+  String? _appDocPath;
+  String? get appDocPath => _appDocPath;
 
-  Future<String> getTempDiretoryPath() async {
+  Future<String> getTempDirectoryPath() async {
     Directory tempDir = await getTemporaryDirectory();
 
     _tempPath = tempDir.path;
 
-    return _tempPath;
+    return _tempPath!;
   }
 
   Future<String> getAppDocDirectoryPath() async {
@@ -24,11 +24,11 @@ class LocalStorageService {
 
     _appDocPath = appDocDir.path;
 
-    return _appDocPath;
+    return _appDocPath!;
   }
 
   Future<void> initialize() async {
-    await getTempDiretoryPath();
+    await getTempDirectoryPath();
     await getAppDocDirectoryPath();
   }
 }

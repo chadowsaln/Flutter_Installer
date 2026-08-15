@@ -13,27 +13,31 @@ import 'package:flutter_installer/src/ui/widgets/expanded_container.dart';
 import './installing_view_model.dart';
 
 class InstallingView extends StatelessWidget {
-  final Function() onNextPressed;
-  final Function() onCancelPressed;
-  final UserChoice userChoice;
+  final VoidCallback onNextPressed;
+  final VoidCallback onCancelPressed;
+  final UserChoice? userChoice;
 
   const InstallingView({
-    @required this.onNextPressed,
-    @required this.onCancelPressed,
-    @required this.userChoice,
+    required this.onNextPressed,
+    required this.onCancelPressed,
+    this.userChoice,
   });
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<InstallingViewModel>.reactive(
       viewModelBuilder: () => InstallingViewModel(),
-      onModelReady: (InstallingViewModel model) async {
+      onViewModelReady: (InstallingViewModel model) async {
+        final UserChoice? userChoice = this.userChoice;
+        if (userChoice == null) {
+          return;
+        }
         model.cancelableOperation = CancelableOperation<void>.fromFuture(
           model.initialize(
             userChoice: userChoice,
           ),
           onCancel: () async {
-            await onCancelPressed();
+            onCancelPressed();
           },
         );
         model.notifyListeners();
@@ -44,7 +48,7 @@ class InstallingView extends StatelessWidget {
       builder: (
         BuildContext context,
         InstallingViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         return Scaffold(
           body: SafeArea(
@@ -84,7 +88,7 @@ class InstallingView extends StatelessWidget {
                                 : textColorBlack,
                           ),
                         ),
-                        progressColor: Theme.of(context).accentColor,
+                        progressColor: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     Container(
@@ -106,15 +110,16 @@ class InstallingView extends StatelessWidget {
                               BuildContext context,
                               AsyncSnapshot<List<Line>> snapshot,
                             ) {
-                              if (snapshot.data == null) {
+                              final List<Line>? snapshotLines = snapshot.data;
+                              if (snapshotLines == null) {
                                 return Container();
                               }
 
                               List<Widget> getLines() {
-                                return snapshot.data.map(
+                                return snapshotLines.map(
                                   (Line line) {
                                     return Text(
-                                      line.text ?? '',
+                                      line.text,
                                       style: line is ErrLine
                                           ? TextStyle(
                                               color: dangerColor,
@@ -149,7 +154,7 @@ class InstallingView extends StatelessWidget {
                                   ),
                                   child: ListView.builder(
                                     controller: model.scrollController,
-                                    itemCount: getLines().length ?? 0,
+                                    itemCount: getLines().length,
                                     itemBuilder: (
                                       BuildContext context,
                                       int index,

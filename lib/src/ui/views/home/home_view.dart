@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -8,6 +9,7 @@ import 'package:flutter_installer/src/ui/widgets/expanded_container.dart';
 
 import './home_view_model.dart';
 
+@RoutePage()
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class HomeView extends StatelessWidget {
       builder: (
         BuildContext context,
         HomeViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         model.initializeWindowSize();
 

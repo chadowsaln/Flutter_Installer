@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import 'package:flutter_installer/src/app/generated/locator/locator.dart';
 import 'package:flutter_installer/src/app/generated/router/router.dart';
 import 'package:flutter_installer/src/app/models/user_choice.model.dart';
@@ -19,10 +21,10 @@ class StepsBaseViewModel extends CustomBaseViewModel {
     notifyListeners();
   }
 
-  UserChoice _userChoice;
-  UserChoice get userChoice => _userChoice;
+  UserChoice? _userChoice;
+  UserChoice? get userChoice => _userChoice;
 
-  int _currentIndex;
+  late int _currentIndex;
   int get currentIndex => _currentIndex;
   void setUserChoice(UserChoice newValue) {
     _userChoice = newValue;
@@ -46,14 +48,14 @@ class StepsBaseViewModel extends CustomBaseViewModel {
 
   StepWidgetState decideStepState(int stepIndex) {
     if (_currentIndex == stepIndex) {
-      return StepWidgetState.Doing;
+      return StepWidgetState.doing;
     }
 
     if (_currentIndex > stepIndex) {
-      return StepWidgetState.Done;
+      return StepWidgetState.done;
     }
 
-    return StepWidgetState.NotDone;
+    return StepWidgetState.notDone;
   }
 
   decideStepView() {
@@ -66,7 +68,6 @@ class StepsBaseViewModel extends CustomBaseViewModel {
             setUserChoice(userChoice);
           },
         );
-        break;
       case 1:
         return SummaryView(
           onBackPressed: () {
@@ -77,7 +78,6 @@ class StepsBaseViewModel extends CustomBaseViewModel {
           },
           userChoice: _userChoice,
         );
-        break;
       case 2:
         return InstallingView(
           onNextPressed: () {
@@ -88,13 +88,12 @@ class StepsBaseViewModel extends CustomBaseViewModel {
           },
           userChoice: _userChoice,
         );
-        break;
       case 3:
         return DoneView(
           onFinishPressed: () {},
         );
-        break;
       default:
+        return SizedBox.shrink();
     }
   }
 

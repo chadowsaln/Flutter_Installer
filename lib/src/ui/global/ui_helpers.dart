@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 
 class _SizeConfig {
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth;
-  static double screenHeight;
-  static double blockSizeHorizontal;
-  static double blockSizeVertical;
+  static late double screenWidth;
+  static late double screenHeight;
+  static late double blockSizeHorizontal;
+  static late double blockSizeVertical;
 
-  static double _safeAreaHorizontal;
-  static double _safeAreaVertical;
+  static late double _safeAreaHorizontal;
+  static late double _safeAreaVertical;
   // ignore: unused_field
-  static double safeBlockHorizontal;
+  static late double safeBlockHorizontal;
   // ignore: unused_field
-  static double safeBlockVertical;
+  static late double safeBlockVertical;
 
   void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
-    screenHeight = _mediaQueryData.size.height;
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+    screenWidth = mediaQueryData.size.width;
+    screenHeight = mediaQueryData.size.height;
 
     _safeAreaHorizontal =
-        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
+        mediaQueryData.padding.left + mediaQueryData.padding.right;
     _safeAreaVertical =
-        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
+        mediaQueryData.padding.top + mediaQueryData.padding.bottom;
     safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / 100;
     safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
 

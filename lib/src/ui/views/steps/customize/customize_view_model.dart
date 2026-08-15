@@ -29,8 +29,8 @@ class CustomizeViewModel extends CustomBaseViewModel {
     notifyListeners();
   }
 
-  String _installationPath;
-  String get installationPath => _installationPath;
+  String? _installationPath;
+  String? get installationPath => _installationPath;
   void setInstallationPath(String newValue) {
     _installationPath = newValue;
     notifyListeners();
@@ -72,11 +72,11 @@ class CustomizeViewModel extends CustomBaseViewModel {
   }
 
   Future<void> onBrowsePressed() async {
-    String initialDirectory;
+    String? initialDirectory;
     if (Platform.isMacOS || Platform.isWindows) {
       initialDirectory = await _localStorageService.getAppDocDirectoryPath();
     }
-    final String directoryPath = await file_selector.getDirectoryPath(
+    final String? directoryPath = await file_selector.getDirectoryPath(
       initialDirectory: initialDirectory,
       confirmButtonText: 'Install Here',
     );
@@ -92,32 +92,34 @@ class CustomizeViewModel extends CustomBaseViewModel {
 
     setChooseFolderTextFieldHasError(false);
     setInstallationPath(directoryPath);
-    chooseFolderController.text = installationPath;
+    chooseFolderController.text = directoryPath;
   }
 
   showSnackBar({
-    String title,
-    @required String message,
+    String? title,
+    required String message,
   }) {
     _snackbarService.showSnackbar(
-      title: title,
+      title: title ?? '',
       message: message,
     );
   }
 
   Future<void> intialize({
-    @required UserChoice userChoice,
+    required UserChoice? userChoice,
   }) async {
     if (userChoice != null) {
-      chooseFolderController.text = userChoice.installationPath;
+      chooseFolderController.text = userChoice.installationPath ?? '';
       setFlutterChannel(userChoice.flutterChannel);
       setInstallAndroidStudio(userChoice.installAndroidStudio);
       setInstallGit(userChoice.installGit);
       setInstallIntelliJIDEA(userChoice.installIntelliJIDEA);
       setInstallVisualStudioCode(userChoice.installVisualStudioCode);
     } else {
-      setInstallationPath(await _localStorageService.getAppDocDirectoryPath());
-      chooseFolderController.text = _installationPath;
+      final String appDocDirectoryPath =
+          await _localStorageService.getAppDocDirectoryPath();
+      setInstallationPath(appDocDirectoryPath);
+      chooseFolderController.text = appDocDirectoryPath;
     }
   }
 }

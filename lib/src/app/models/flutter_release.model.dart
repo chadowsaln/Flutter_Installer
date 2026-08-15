@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class FlutterRelease {
   final String hash;
   final String channel;
@@ -11,21 +9,21 @@ class FlutterRelease {
   final String sha256;
 
   const FlutterRelease({
-    @required this.hash,
-    @required this.channel,
-    @required this.version,
-    @required this.releaseDate,
-    @required this.archive,
-    @required this.sha256,
+    required this.hash,
+    required this.channel,
+    required this.version,
+    required this.releaseDate,
+    required this.archive,
+    required this.sha256,
   });
 
   FlutterRelease copyWith({
-    String hash,
-    String channel,
-    String version,
-    String releaseDate,
-    String archive,
-    String sha256,
+    String? hash,
+    String? channel,
+    String? version,
+    String? releaseDate,
+    String? archive,
+    String? sha256,
   }) {
     return FlutterRelease(
       hash: hash ?? this.hash,
@@ -50,19 +48,19 @@ class FlutterRelease {
 
   factory FlutterRelease.fromMap(Map<String, dynamic> map) {
     return FlutterRelease(
-      hash: map['hash'],
-      channel: map['channel'],
-      version: map['version'],
-      releaseDate: map['release_date'],
-      archive: map['archive'],
-      sha256: map['sha256'],
+      hash: map['hash'] as String,
+      channel: map['channel'] as String,
+      version: map['version'] as String,
+      releaseDate: map['release_date'] as String,
+      archive: map['archive'] as String,
+      sha256: map['sha256'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory FlutterRelease.fromJson(String source) =>
-      FlutterRelease.fromMap(json.decode(source));
+      FlutterRelease.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

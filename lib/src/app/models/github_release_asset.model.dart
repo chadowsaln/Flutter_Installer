@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class GithubReleaseAsset {
   final String url;
   final int id;
   final String nodeId;
   final String name;
-  final String label;
+  final String? label;
   // uploader
   final String contentType;
   final String state;
@@ -17,31 +15,31 @@ class GithubReleaseAsset {
   final String browserDownloadUrl;
 
   const GithubReleaseAsset({
-    @required this.url,
-    @required this.id,
-    @required this.nodeId,
-    @required this.name,
-    @required this.label,
-    @required this.contentType,
-    @required this.state,
-    @required this.downloadCount,
-    @required this.createdAt,
-    @required this.publishedAt,
-    @required this.browserDownloadUrl,
+    required this.url,
+    required this.id,
+    required this.nodeId,
+    required this.name,
+    this.label,
+    required this.contentType,
+    required this.state,
+    required this.downloadCount,
+    required this.createdAt,
+    required this.publishedAt,
+    required this.browserDownloadUrl,
   });
 
   GithubReleaseAsset copyWith({
-    String url,
-    int id,
-    String nodeId,
-    String name,
-    String label,
-    String contentType,
-    String state,
-    int downloadCount,
-    String createdAt,
-    String publishedAt,
-    String browserDownloadUrl,
+    String? url,
+    int? id,
+    String? nodeId,
+    String? name,
+    String? label,
+    String? contentType,
+    String? state,
+    int? downloadCount,
+    String? createdAt,
+    String? publishedAt,
+    String? browserDownloadUrl,
   }) {
     return GithubReleaseAsset(
       url: url ?? this.url,
@@ -76,24 +74,24 @@ class GithubReleaseAsset {
 
   factory GithubReleaseAsset.fromMap(Map<String, dynamic> map) {
     return GithubReleaseAsset(
-      url: map['url'],
-      id: map['id'],
-      nodeId: map['node_id'],
-      name: map['name'],
-      label: map['label'],
-      contentType: map['content_type'],
-      state: map['state'],
-      downloadCount: map['download_count'],
-      createdAt: map['created_at'],
-      publishedAt: map['published_at'],
-      browserDownloadUrl: map['browser_download_url'],
+      url: map['url'] as String,
+      id: map['id'] as int,
+      nodeId: map['node_id'] as String,
+      name: map['name'] as String,
+      label: map['label'] as String?,
+      contentType: map['content_type'] as String,
+      state: map['state'] as String,
+      downloadCount: map['download_count'] as int,
+      createdAt: map['created_at'] as String,
+      publishedAt: map['published_at'] as String,
+      browserDownloadUrl: map['browser_download_url'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory GithubReleaseAsset.fromJson(String source) =>
-      GithubReleaseAsset.fromMap(json.decode(source));
+      GithubReleaseAsset.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

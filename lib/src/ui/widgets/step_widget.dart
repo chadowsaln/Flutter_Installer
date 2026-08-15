@@ -4,46 +4,46 @@ import 'package:flutter_installer/src/ui/global/app_colors.dart';
 import 'package:flutter_installer/src/ui/global/ui_helpers.dart';
 
 enum StepWidgetState {
-  Done,
-  Doing,
-  NotDone,
+  done,
+  doing,
+  notDone,
 }
 
 class StepWidget extends StatelessWidget {
+  const StepWidget({
+    super.key,
+    required this.stepName,
+    required this.stepState,
+  });
+
   final String stepName;
   final StepWidgetState stepState;
 
-  const StepWidget({
-    @required this.stepName,
-    @required this.stepState,
-  });
+  static Widget _buildStepIcon(
+    BuildContext context,
+    StepWidgetState state,
+  ) {
+    switch (state) {
+      case StepWidgetState.done:
+        return Icon(
+          Icons.done,
+          size: blockSize(context) * 3,
+          color: Theme.of(context).colorScheme.primary,
+        );
+      case StepWidgetState.doing:
+        return Icon(
+          Icons.fiber_manual_record,
+          size: blockSize(context) * 3,
+          color: Theme.of(context).colorScheme.primary,
+        );
+      case StepWidgetState.notDone:
+        return const SizedBox.shrink();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    decideStepType() {
-      switch (stepState) {
-        case StepWidgetState.Done:
-          return Icon(
-            Icons.done,
-            size: blockSize(context) * 3,
-            color: Theme.of(context).accentColor,
-          );
-          break;
-        case StepWidgetState.Doing:
-          return Icon(
-            Icons.fiber_manual_record,
-            size: blockSize(context) * 3,
-            color: Theme.of(context).accentColor,
-          );
-          break;
-        case StepWidgetState.NotDone:
-        default:
-          return Container();
-          break;
-      }
-    }
-
-    return Container(
+    return Padding(
       padding: EdgeInsets.symmetric(
         vertical: blockSize(context) * 1.5,
         horizontal: blockSize(context),
@@ -51,7 +51,7 @@ class StepWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: blockSize(context) * 4,
             height: blockSize(context) * 4,
             child: Stack(
@@ -60,7 +60,7 @@ class StepWidget extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 ),
-                decideStepType(),
+                _buildStepIcon(context, stepState),
               ],
             ),
           ),

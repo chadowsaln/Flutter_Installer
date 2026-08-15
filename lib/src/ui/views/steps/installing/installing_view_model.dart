@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:process_run/shell.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -31,7 +30,7 @@ class OutLine extends Line {
 }
 
 class InstallingViewModel extends CustomBaseViewModel {
-  Shell _shell;
+  late Shell _shell;
   final _stdoutCtlr = StreamController<List<int>>();
   final _stderrCtlr = StreamController<List<int>>();
   final linesCtlr = StreamController<List<Line>>();
@@ -39,7 +38,7 @@ class InstallingViewModel extends CustomBaseViewModel {
   List<Line> get lines => _lines;
 
   final ScrollController scrollController = ScrollController();
-  CancelableOperation<void> cancelableOperation;
+  late CancelableOperation<void> cancelableOperation;
 
   bool _showLog = false;
   bool get showLog => _showLog;
@@ -73,10 +72,10 @@ class InstallingViewModel extends CustomBaseViewModel {
 
   final DialogService _dialogService = locator<DialogService>();
 
-  UserChoice _userChoice;
+  late UserChoice _userChoice;
   UserChoice get userChoice => _userChoice;
 
-  double _percentage;
+  double _percentage = 0.0;
   double get percentage => _percentage;
   void setPercentage(double newValue) {
     _percentage = newValue;
@@ -87,12 +86,12 @@ class InstallingViewModel extends CustomBaseViewModel {
   String get currentTaskText => _currentTaskText;
   void setCurrentTaskText(String newValue) {
     _currentTaskText = newValue;
-    logger.v(_currentTaskText);
+    logger.t(_currentTaskText);
     notifyListeners();
   }
 
   Future<void> initialize({
-    @required UserChoice userChoice,
+    required UserChoice userChoice,
   }) async {
     try {
       intializeStreamOfShellLines();
@@ -103,23 +102,24 @@ class InstallingViewModel extends CustomBaseViewModel {
       getVariables(
         userChoice: userChoice,
       );
-      logger.v('Install Function started');
+      logger.t('Install Function started');
       await fakeDelay();
       await install();
-      logger.v('Install Function ended');
+      logger.t('Install Function ended');
     } catch (exception) {
       logger.e(exception.toString());
     }
   }
 
   getVariables({
-    @required UserChoice userChoice,
+    required UserChoice userChoice,
   }) {
     _userChoice = userChoice;
   }
 
   Future<bool> showCancelConfirmationDialog() async {
-    DialogResponse dialogResponse = await _dialogService.showConfirmationDialog(
+    final DialogResponse? dialogResponse =
+        await _dialogService.showConfirmationDialog(
       title: 'Are You Sure? 😢',
       description: 'Are You Sure You Wanna Cancel This Download? 😢',
       cancelTitle: 'No, Thanks God 🙏',
@@ -127,11 +127,11 @@ class InstallingViewModel extends CustomBaseViewModel {
       dialogPlatform: DialogPlatform.Material,
     );
 
-    if (dialogResponse.confirmed) {
+    if (dialogResponse != null && dialogResponse.confirmed) {
       logger.i('Installation Cancelled!');
     }
 
-    return dialogResponse.confirmed;
+    return dialogResponse?.confirmed ?? false;
   }
 
   Future<void> install() async {

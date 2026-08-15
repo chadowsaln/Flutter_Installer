@@ -1,22 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TextLink extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-  final TextStyle style;
-  final TextAlign textAlign;
-  final TextOverflow overflow;
-  final StrutStyle strutStyle;
-  final TextDirection textDirection;
-  final Locale locale;
-  final bool softWrap;
-  final double textScaleFactor;
-  final int maxLines;
-  final String semanticsLabel;
-  final TextWidthBasis textWidthBasis;
-
   const TextLink(
     this.text, {
+    super.key,
     this.onPressed,
     this.style,
     this.textAlign,
@@ -25,11 +12,23 @@ class TextLink extends StatelessWidget {
     this.textDirection,
     this.locale,
     this.softWrap,
-    this.textScaleFactor,
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
   });
+
+  final String text;
+  final VoidCallback? onPressed;
+  final TextStyle? style;
+  final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final StrutStyle? strutStyle;
+  final TextDirection? textDirection;
+  final Locale? locale;
+  final bool? softWrap;
+  final int? maxLines;
+  final String? semanticsLabel;
+  final TextWidthBasis? textWidthBasis;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,6 @@ class TextLink extends StatelessWidget {
         textDirection: textDirection,
         locale: locale,
         softWrap: softWrap,
-        textScaleFactor: textScaleFactor,
         maxLines: maxLines,
         semanticsLabel: semanticsLabel,
         textWidthBasis: textWidthBasis,

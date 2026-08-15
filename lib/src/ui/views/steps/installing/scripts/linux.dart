@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:process_run/shell.dart';
 
@@ -18,20 +15,20 @@ final Utils _utils = locator<Utils>();
 final LocalStorageService _localStorageService = locator<LocalStorageService>();
 final ApiService _apiService = locator<ApiService>();
 
-FlutterRelease flutterRelease;
-String archiveName;
-String tempDirName;
-String distroName;
+late FlutterRelease flutterRelease;
+late String archiveName;
+late String tempDirName;
+late String distroName;
 
 String appendToPathScriptName = "append-to-path.sh";
 
 Future<void> installOnLinux({
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   logger.i('Install On Linux');
 
@@ -189,13 +186,13 @@ Future<void> installOnLinux({
 }
 
 Future<void> _initializeVariables({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Initializing');
   setPercentage(percentage);
@@ -213,12 +210,12 @@ Future<void> _initializeVariables({
 
 /// create a `shell`
 Future<void> _createShell({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Creating shell');
   setPercentage(percentage);
@@ -228,29 +225,29 @@ Future<void> _createShell({
 
 /// `cd` into Temp directory
 Future<Shell> _cdToTempDirectory({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Changing directory to "temp"');
   setPercentage(percentage);
   await fakeDelay();
-  shell = shell.pushd(await _localStorageService.getTempDiretoryPath());
+  shell = shell.pushd(await _localStorageService.getTempDirectoryPath());
   logger.i('Change Directory to Temp');
   return shell;
 }
 
 /// create `flutter_installer` temp directory
 Future<void> _createFlutterInstallerTempDirectory({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Creating "$tempDirName" directory');
   setPercentage(percentage);
@@ -263,12 +260,12 @@ Future<void> _createFlutterInstallerTempDirectory({
 
 /// `cd` into `flutter_installer` directory
 Future<Shell> _cdToFlutterInstallerTempDirectory({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Changing directory to "$tempDirName"');
   setPercentage(percentage);
@@ -280,11 +277,11 @@ Future<Shell> _cdToFlutterInstallerTempDirectory({
 
 /// download `dist.sh` for knowing distro name using `curl`
 Future<void> _downloadDistDotSh({
-  @required double percentage,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     'Downloading "dist.sh" for knowing your Linux distro',
@@ -300,18 +297,18 @@ Future<void> _downloadDistDotSh({
 
 /// run `dist.sh` for knowing distor name
 Future<String> _runDistDotSh({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText('Getting Linux distro name using "dist.sh"');
   setPercentage(percentage);
   await fakeDelay();
   List<ProcessResult> distroNameList = await shell.run('''
-  bash \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/dist.sh\"
+  bash \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/dist.sh\"
   ''');
   final String distroName = distroNameList[0].stdout;
   logger.i('Distro Name: $distroName');
@@ -320,12 +317,12 @@ Future<String> _runDistDotSh({
 
 /// download Flutter SDK for Linux using `curl`
 Future<void> _downloadFlutterSdkForLinuxWithCurl({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     'Downloading Flutter SDK for Linux\n(This may take some time)',
@@ -345,13 +342,13 @@ Future<void> _downloadFlutterSdkForLinuxWithCurl({
 
 /// use `tar` to unzip the downloaded file
 Future<void> _upzipDownloadedFlutterSdkForLinux({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     "Unzipping Flutter SDK to installation path\n(This might take some time)",
@@ -365,7 +362,7 @@ Future<void> _upzipDownloadedFlutterSdkForLinux({
     "Started Extracting of $archiveName from ${_apiService.baseUrlForFlutterRelease}/${flutterRelease.archive}",
   );
   await shell.run("""
-    tar -xvf \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/$archiveName\" -C \"${userChoice.installationPath}\"
+    tar -xvf \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/$archiveName\" -C \"${userChoice.installationPath}\"
     """);
   logger.i(
     "Finished Extracting of $archiveName from ${_apiService.baseUrlForFlutterRelease}/${flutterRelease.archive}",
@@ -374,12 +371,12 @@ Future<void> _upzipDownloadedFlutterSdkForLinux({
 
 /// download `append-to-path.sh`
 Future<void> _downloadScriptForAddingFlutterToPath({
-  @required double percentage,
-  @required Logger logger,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     'Downloading Script for adding to PATH',
@@ -402,13 +399,13 @@ Future<void> _downloadScriptForAddingFlutterToPath({
 
 /// add `flutter` to the `PATH`
 Future<void> _runAddFlutterToPathScript({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     "Adding Flutter SDK to the PATH",
@@ -417,7 +414,7 @@ Future<void> _runAddFlutterToPathScript({
   await fakeDelay();
   String flutterPath = "${userChoice.installationPath}/flutter/bin";
   await shell.run("""
-  bash \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/$appendToPathScriptName\" $flutterPath
+  bash \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/$appendToPathScriptName\" $flutterPath
   """);
   logger.i(
     "Added Flutter to PATH",
@@ -426,13 +423,13 @@ Future<void> _runAddFlutterToPathScript({
 
 /// install `git` for linux
 Future<void> _installGit({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   if (userChoice.installGit) {
     setCurrentTaskText(
@@ -496,13 +493,13 @@ Future<void> _installGit({
 /// use `tar` to unzip the downloaded file
 /// start `Android Studio` using `studio.sh`
 Future<void> _installAndroidStudio({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   if (userChoice.installAndroidStudio) {
     setCurrentTaskText(
@@ -532,7 +529,7 @@ Future<void> _installAndroidStudio({
       'Started Extracting of \"$androidStudioName\" from \"${androidStudioRelease.downloadLinks.linux}\"',
     );
     await shell.run('''
-    tar -xvf \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/$androidStudioName\" -C \"${userChoice.installationPath}\"
+    tar -xvf \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/$androidStudioName\" -C \"${userChoice.installationPath}\"
     ''');
     logger.i(
       'Finished Extracting of \"$androidStudioName\" from \"${androidStudioRelease.downloadLinks.linux}\"',
@@ -568,13 +565,13 @@ Future<void> _installAndroidStudio({
 /// use `tar` to unzip the downloaded file
 /// start `IntelliJIDEA` using `idea.sh`
 Future<void> _installIntelliJIDEA({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   if (userChoice.installIntelliJIDEA) {
     setCurrentTaskText(
@@ -606,7 +603,7 @@ Future<void> _installIntelliJIDEA({
     );
     await shell.run('''
     mkdir ${userChoice.installationPath}/$extractedFolderName
-    tar -xvf \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/$intelliJIDEAName\" -C \"${userChoice.installationPath}/$extractedFolderName\" --strip-components=1
+    tar -xvf \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/$intelliJIDEAName\" -C \"${userChoice.installationPath}/$extractedFolderName\" --strip-components=1
     ''');
     logger.i(
       'Finished Extracting of \"$intelliJIDEAName\" from \"${intelliJIDEARelease.downloadLinks.linux}\"',
@@ -641,13 +638,13 @@ Future<void> _installIntelliJIDEA({
 /// use `tar` to unzip the downloaded file
 /// start `Visual Studio Code` using `code`
 Future<void> _installVisualStudioCode({
-  @required double percentage,
-  @required Logger logger,
-  @required UserChoice userChoice,
-  @required Shell shell,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required UserChoice userChoice,
+  required Shell shell,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   if (userChoice.installVisualStudioCode) {
     setCurrentTaskText(
@@ -680,7 +677,7 @@ Future<void> _installVisualStudioCode({
     );
     await shell.run('''
     mkdir ${userChoice.installationPath}/$extractedFolderName
-    tar -xvf \"${await _localStorageService.getTempDiretoryPath()}/$tempDirName/$visualStudioCodeName\" -C \"${userChoice.installationPath}/$extractedFolderName\" --strip-components=1
+    tar -xvf \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/$visualStudioCodeName\" -C \"${userChoice.installationPath}/$extractedFolderName\" --strip-components=1
     ''');
     logger.i(
       'Finished Extracting of \"$visualStudioCodeName\" from \"$visualStudioCodeDownloadLink\"',
@@ -713,11 +710,11 @@ Future<void> _installVisualStudioCode({
 
 /// cleaning up
 Future<void> _cleanup({
-  @required double percentage,
-  @required Logger logger,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     'Cleaning Up!',
@@ -731,11 +728,11 @@ Future<void> _cleanup({
 
 /// Done 🚀😎
 Future<void> _runDone({
-  @required double percentage,
-  @required Logger logger,
-  @required Function(String taskText) setCurrentTaskText,
-  @required Function(double newPercentage) setPercentage,
-  @required Future<void> Function({int seconds}) fakeDelay,
+  required double percentage,
+  required Logger logger,
+  required Function(String taskText) setCurrentTaskText,
+  required Function(double newPercentage) setPercentage,
+  required Future<void> Function({int seconds}) fakeDelay,
 }) async {
   setCurrentTaskText(
     'You\'re Done! 🚀😎',

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter_installer/src/app/models/flutter_installer_api/app_release.mode.dart';
 import 'package:flutter_installer/src/app/models/flutter_installer_api/scripts.model.dart';
 
@@ -12,17 +10,17 @@ class Latest {
   final Scripts scripts;
 
   const Latest({
-    @required this.androidStudio,
-    @required this.visualStudioCode,
-    @required this.intellijIdea,
-    @required this.scripts,
+    required this.androidStudio,
+    required this.visualStudioCode,
+    required this.intellijIdea,
+    required this.scripts,
   });
 
   Latest copyWith({
-    AppRelease androidStudio,
-    AppRelease visualStudioCode,
-    AppRelease intellijIdea,
-    Scripts scripts,
+    AppRelease? androidStudio,
+    AppRelease? visualStudioCode,
+    AppRelease? intellijIdea,
+    Scripts? scripts,
   }) {
     return Latest(
       androidStudio: androidStudio ?? this.androidStudio,
@@ -43,16 +41,20 @@ class Latest {
 
   factory Latest.fromMap(Map<String, dynamic> map) {
     return Latest(
-      androidStudio: AppRelease.fromMap(map['android_studio']),
-      visualStudioCode: AppRelease.fromMap(map['visual_studio_code']),
-      intellijIdea: AppRelease.fromMap(map['intellij_idea']),
-      scripts: Scripts.fromMap(map['scripts']),
+      androidStudio:
+          AppRelease.fromMap(map['android_studio'] as Map<String, dynamic>),
+      visualStudioCode:
+          AppRelease.fromMap(map['visual_studio_code'] as Map<String, dynamic>),
+      intellijIdea:
+          AppRelease.fromMap(map['intellij_idea'] as Map<String, dynamic>),
+      scripts: Scripts.fromMap(map['scripts'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Latest.fromJson(String source) => Latest.fromMap(json.decode(source));
+  factory Latest.fromJson(String source) =>
+      Latest.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

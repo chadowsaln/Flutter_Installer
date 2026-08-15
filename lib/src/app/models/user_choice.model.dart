@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 enum FlutterChannel {
   dev,
   beta,
@@ -15,8 +13,6 @@ String convertFlutterChannelEnumToString(FlutterChannel flutterChannel) {
     case FlutterChannel.beta:
       return "beta";
     case FlutterChannel.stable:
-      return "stable";
-    default:
       return "stable";
   }
 }
@@ -35,23 +31,23 @@ FlutterChannel convertStringToFlutterChannelEnum(String flutterChannelString) {
 }
 
 class UserChoice {
-  final String installationPath;
+  final String? installationPath;
   final bool installVisualStudioCode;
   final bool installAndroidStudio;
   final bool installIntelliJIDEA;
   final bool installGit;
   final FlutterChannel flutterChannel;
 
-  UserChoice({
-    @required this.installationPath,
-    @required this.installVisualStudioCode,
-    @required this.installAndroidStudio,
-    @required this.installIntelliJIDEA,
-    @required this.installGit,
-    @required this.flutterChannel,
+  const UserChoice({
+    required this.installationPath,
+    required this.installVisualStudioCode,
+    required this.installAndroidStudio,
+    required this.installIntelliJIDEA,
+    required this.installGit,
+    required this.flutterChannel,
   });
 
-  UserChoice.defaultChoice({
+  const UserChoice.defaultChoice({
     this.installAndroidStudio = true,
     this.installationPath,
     this.installVisualStudioCode = false,
@@ -61,12 +57,12 @@ class UserChoice {
   });
 
   UserChoice copyWith({
-    String installationPath,
-    bool installVisualStudioCode,
-    bool installAndroidStudio,
-    bool installIntelliJIDEA,
-    bool installGit,
-    FlutterChannel flutterChannel,
+    String? installationPath,
+    bool? installVisualStudioCode,
+    bool? installAndroidStudio,
+    bool? installIntelliJIDEA,
+    bool? installGit,
+    FlutterChannel? flutterChannel,
   }) {
     return UserChoice(
       installationPath: installationPath ?? this.installationPath,
@@ -92,19 +88,20 @@ class UserChoice {
 
   factory UserChoice.fromMap(Map<String, dynamic> map) {
     return UserChoice(
-      installationPath: map['installationPath'],
-      installVisualStudioCode: map['installVisualStudioCode'],
-      installAndroidStudio: map['installAndroidStudio'],
-      installIntelliJIDEA: map['installIntelliJIDEA'],
-      installGit: map['installGit'],
-      flutterChannel: convertStringToFlutterChannelEnum(map['flutterChannel']),
+      installationPath: map['installationPath'] as String?,
+      installVisualStudioCode: map['installVisualStudioCode'] as bool,
+      installAndroidStudio: map['installAndroidStudio'] as bool,
+      installIntelliJIDEA: map['installIntelliJIDEA'] as bool,
+      installGit: map['installGit'] as bool,
+      flutterChannel:
+          convertStringToFlutterChannelEnum(map['flutterChannel'] as String),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory UserChoice.fromJson(String source) =>
-      UserChoice.fromMap(json.decode(source));
+      UserChoice.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

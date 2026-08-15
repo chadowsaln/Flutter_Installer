@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter_installer/src/app/models/flutter_installer_api/download_links.model.dart';
 
 class ScriptRelease {
@@ -9,13 +7,13 @@ class ScriptRelease {
   final DownloadLinks downloadLinks;
 
   const ScriptRelease({
-    @required this.name,
-    @required this.downloadLinks,
+    required this.name,
+    required this.downloadLinks,
   });
 
   ScriptRelease copyWith({
-    String name,
-    DownloadLinks downloadLinks,
+    String? name,
+    DownloadLinks? downloadLinks,
   }) {
     return ScriptRelease(
       name: name ?? this.name,
@@ -32,15 +30,16 @@ class ScriptRelease {
 
   factory ScriptRelease.fromMap(Map<String, dynamic> map) {
     return ScriptRelease(
-      name: map['name'],
-      downloadLinks: DownloadLinks.fromMap(map['download_links']),
+      name: map['name'] as String,
+      downloadLinks:
+          DownloadLinks.fromMap(map['download_links'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory ScriptRelease.fromJson(String source) =>
-      ScriptRelease.fromMap(json.decode(source));
+      ScriptRelease.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() =>

@@ -13,23 +13,23 @@ import 'package:flutter_installer/src/ui/widgets/expanded_container.dart';
 import './done_view_model.dart';
 
 class DoneView extends StatelessWidget {
-  final Function onFinishPressed;
+  final VoidCallback onFinishPressed;
 
   const DoneView({
-    @required this.onFinishPressed,
+    required this.onFinishPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DoneViewModel>.reactive(
       viewModelBuilder: () => DoneViewModel(),
-      onModelReady: (DoneViewModel model) async {
+      onViewModelReady: (DoneViewModel model) async {
         await model.initialize();
       },
       builder: (
         BuildContext context,
         DoneViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         return Scaffold(
           body: SafeArea(
@@ -56,8 +56,8 @@ class DoneView extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           color: ThemeModeBuilderConfig.isDarkTheme()
-                              ? Theme.of(context).primaryColor
-                              : Colors.grey[200],
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey.shade200,
                         ),
                         height: blockSize(context) * 30,
                         width: blockSize(context) * 50,
@@ -70,7 +70,7 @@ class DoneView extends StatelessWidget {
                                   ThemeModeBuilderConfig.isDarkTheme()
                                       ? Theme.of(context)
                                           .scaffoldBackgroundColor
-                                      : Colors.grey[350],
+                                      : Colors.grey.shade300,
                               fontWeight: FontWeight.bold,
                               fontSize: blockSize(context) * 1.5,
                             ),
@@ -90,9 +90,7 @@ class DoneView extends StatelessWidget {
                               fontSize: blockSize(context) * 1.5,
                             ),
                           ),
-                          onTapLink: (String new1, String link, String new2) {
-                            print(new1);
-                            print(new2);
+                          onTapLink: (String link, String? title, String? html) {
                             model.launchUrl(link);
                           },
                         ),

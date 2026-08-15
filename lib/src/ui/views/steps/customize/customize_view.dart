@@ -11,19 +11,19 @@ import 'package:flutter_installer/src/ui/widgets/text_link.dart';
 import './customize_view_model.dart';
 
 class CustomizeView extends StatelessWidget {
-  final UserChoice userChoice;
+  final UserChoice? userChoice;
   final Function(UserChoice userChoice) onNextPressed;
 
   const CustomizeView({
     this.userChoice,
-    @required this.onNextPressed,
+    required this.onNextPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CustomizeViewModel>.reactive(
       viewModelBuilder: () => CustomizeViewModel(),
-      onModelReady: (CustomizeViewModel model) async {
+      onViewModelReady: (CustomizeViewModel model) async {
         await model.intialize(
           userChoice: userChoice,
         );
@@ -31,17 +31,17 @@ class CustomizeView extends StatelessWidget {
       builder: (
         BuildContext context,
         CustomizeViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         _buildCheckBoxTile({
-          @required String logoPath,
-          @required String appName,
-          @required bool value,
-          @required void Function(bool) onChanged,
+          required String logoPath,
+          required String appName,
+          required bool value,
+          required void Function(bool) onChanged,
         }) {
           return Expanded(
             child: CheckboxListTile(
-              activeColor: Theme.of(context).accentColor,
+              activeColor: Theme.of(context).colorScheme.primary,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -50,9 +50,11 @@ class CustomizeView extends StatelessWidget {
                     width: blockSize(context) * 3,
                   ),
                   horizontalSpaceSmall(context),
-                  Container(
+                  Flexible(
                     child: Text(
                       appName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'RobotoMono',
                         fontSize: blockSize(context) * 1.5,
@@ -63,7 +65,11 @@ class CustomizeView extends StatelessWidget {
                 ],
               ),
               value: value,
-              onChanged: onChanged,
+              onChanged: (bool? newValue) {
+                if (newValue != null) {
+                  onChanged(newValue);
+                }
+              },
             ),
           );
         }
@@ -142,7 +148,7 @@ class CustomizeView extends StatelessWidget {
                     verticalSpaceSmall(context),
                     Divider(
                       thickness: 2,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                       indent: 30,
                       endIndent: 30,
                     ),
@@ -219,93 +225,95 @@ class CustomizeView extends StatelessWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: RadioListTile<
-                                                    FlutterChannel>(
-                                                  activeColor: Theme.of(context)
-                                                      .accentColor,
-                                                  title: Text(
-                                                    'Stable',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily: 'RobotoMono',
-                                                      fontSize:
-                                                          blockSize(context) *
-                                                              1.5,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                          RadioGroup<FlutterChannel>(
+                                            groupValue: model.flutterChannel,
+                                            onChanged: (FlutterChannel?
+                                                newValue) {
+                                              if (newValue != null) {
+                                                model.setFlutterChannel(
+                                                  newValue,
+                                                );
+                                              }
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: RadioListTile<
+                                                      FlutterChannel>(
+                                                    activeColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                    title: Text(
+                                                      'Stable',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'RobotoMono',
+                                                        fontSize: blockSize(
+                                                                context) *
+                                                            1.5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
+                                                    value:
+                                                        FlutterChannel.stable,
                                                   ),
-                                                  value: FlutterChannel.stable,
-                                                  groupValue:
-                                                      model.flutterChannel,
-                                                  onChanged: (FlutterChannel
-                                                      newValue) {
-                                                    model.setFlutterChannel(
-                                                      newValue,
-                                                    );
-                                                  },
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: RadioListTile<
-                                                    FlutterChannel>(
-                                                  activeColor: Theme.of(context)
-                                                      .accentColor,
-                                                  title: Text(
-                                                    'Beta',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily: 'RobotoMono',
-                                                      fontSize:
-                                                          blockSize(context) *
-                                                              1.5,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                Expanded(
+                                                  child: RadioListTile<
+                                                      FlutterChannel>(
+                                                    activeColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                    title: Text(
+                                                      'Beta',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'RobotoMono',
+                                                        fontSize: blockSize(
+                                                                context) *
+                                                            1.5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
+                                                    value:
+                                                        FlutterChannel.beta,
                                                   ),
-                                                  value: FlutterChannel.beta,
-                                                  groupValue:
-                                                      model.flutterChannel,
-                                                  onChanged: (FlutterChannel
-                                                      newValue) {
-                                                    model.setFlutterChannel(
-                                                      newValue,
-                                                    );
-                                                  },
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: RadioListTile<
-                                                    FlutterChannel>(
-                                                  activeColor: Theme.of(context)
-                                                      .accentColor,
-                                                  title: Text(
-                                                    'Dev',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily: 'RobotoMono',
-                                                      fontSize:
-                                                          blockSize(context) *
-                                                              1.5,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                Expanded(
+                                                  child: RadioListTile<
+                                                      FlutterChannel>(
+                                                    activeColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                    title: Text(
+                                                      'Dev',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'RobotoMono',
+                                                        fontSize: blockSize(
+                                                                context) *
+                                                            1.5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
+                                                    value:
+                                                        FlutterChannel.dev,
                                                   ),
-                                                  value: FlutterChannel.dev,
-                                                  groupValue:
-                                                      model.flutterChannel,
-                                                  onChanged: (FlutterChannel
-                                                      newValue) {
-                                                    model.setFlutterChannel(
-                                                      newValue,
-                                                    );
-                                                  },
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       )
@@ -343,11 +351,12 @@ class CustomizeView extends StatelessWidget {
                           ),
                           width: blockSize(context) * 15,
                           onPressed: () {
-                            if (model.chooseFolderController.text == null ||
-                                model.installationPath == null ||
-                                model.chooseFolderController.text.trim() ==
+                            final String? installationPath =
+                                model.installationPath;
+                            if (model.chooseFolderController.text.trim() ==
                                     '' ||
-                                model.installationPath.trim() == '') {
+                                installationPath == null ||
+                                installationPath.trim() == '') {
                               model.setChooseFolderTextFieldHasError(true);
 
                               model.showSnackBar(
@@ -362,7 +371,7 @@ class CustomizeView extends StatelessWidget {
 
                             onNextPressed(
                               UserChoice(
-                                installationPath: model.installationPath,
+                                installationPath: installationPath,
                                 installVisualStudioCode:
                                     model.installVisualStudioCode,
                                 installAndroidStudio:

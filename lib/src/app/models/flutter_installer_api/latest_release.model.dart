@@ -1,18 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter_installer/src/app/models/flutter_installer_api/latest.model.dart';
 
 class LatestRelease {
   final Latest latest;
 
   const LatestRelease({
-    @required this.latest,
+    required this.latest,
   });
 
   LatestRelease copyWith({
-    Latest latest,
+    Latest? latest,
   }) {
     return LatestRelease(
       latest: latest ?? this.latest,
@@ -27,14 +25,14 @@ class LatestRelease {
 
   factory LatestRelease.fromMap(Map<String, dynamic> map) {
     return LatestRelease(
-      latest: Latest.fromMap(map['latest']),
+      latest: Latest.fromMap(map['latest'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory LatestRelease.fromJson(String source) =>
-      LatestRelease.fromMap(json.decode(source));
+      LatestRelease.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'LatestRelease(latest: $latest)';

@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefsService {
   final log = getLogger('SharedPrefsService');
 
-  Future<bool> saveValue(String key, var value) async {
+  Future<bool> saveValue(String key, Object? value) async {
     final SharedPreferences _sharedPreferences =
         await SharedPreferences.getInstance();
     log.d(
@@ -32,10 +32,10 @@ class SharedPrefsService {
     return false;
   }
 
-  Future getValue(String key) async {
+  Future<Object?> getValue(String key) async {
     final SharedPreferences _sharedPreferences =
         await SharedPreferences.getInstance();
-    var value = _sharedPreferences.get(key);
+    Object? value = _sharedPreferences.get(key);
     log.d(
       'getValue | key: $key value: $value',
     );

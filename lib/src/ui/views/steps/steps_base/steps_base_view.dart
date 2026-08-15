@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'package:theme_mode_builder/theme_mode_builder.dart';
@@ -12,23 +12,24 @@ import 'package:flutter_installer/src/ui/widgets/step_widget.dart';
 
 import './steps_base_view_model.dart';
 
+@RoutePage()
 class StepsBaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StepsBaseViewModel>.reactive(
       viewModelBuilder: () => StepsBaseViewModel(),
-      onModelReady: (StepsBaseViewModel model) => model.initialize(),
+      onViewModelReady: (StepsBaseViewModel model) => model.initialize(),
       builder: (
         BuildContext context,
         StepsBaseViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         _buildChangeThemeButtons() {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: Icon(
+                icon: FaIcon(
                   FontAwesomeIcons.sun,
                   color: textColorWhite,
                 ),
@@ -39,7 +40,7 @@ class StepsBaseView extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: FaIcon(
                   FontAwesomeIcons.moon,
                   color: textColorWhite,
                 ),
@@ -129,7 +130,7 @@ class StepsBaseView extends StatelessWidget {
                         width: blockSize(context) * 30,
                         padding: EdgeInsets.all(blockSize(context)),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         child: Column(
                           children: <Widget>[

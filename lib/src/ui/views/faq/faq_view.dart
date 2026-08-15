@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -8,11 +9,12 @@ import 'package:flutter_installer/src/ui/widgets/expanded_container.dart';
 
 import './faq_view_model.dart';
 
+@RoutePage()
 class FaqView extends StatelessWidget {
-  final Function() onBackPressed;
+  final VoidCallback onBackPressed;
 
   const FaqView({
-    @required this.onBackPressed,
+    required this.onBackPressed,
   });
 
   @override
@@ -22,7 +24,7 @@ class FaqView extends StatelessWidget {
       builder: (
         BuildContext context,
         FaqViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         model.initializeWindowSize();
         final TextStyle verticalTextStyle = TextStyle(
@@ -33,8 +35,8 @@ class FaqView extends StatelessWidget {
         );
 
         _buildQuestionAndAnswer({
-          @required String question,
-          @required String answer,
+          required String question,
+          required String answer,
         }) {
           return Card(
             elevation: 5,
@@ -79,7 +81,7 @@ class FaqView extends StatelessWidget {
                     width: blockSize(context) * 20,
                     padding: EdgeInsets.all(blockSize(context)),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

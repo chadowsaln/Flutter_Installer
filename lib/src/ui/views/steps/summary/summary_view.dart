@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,14 +12,14 @@ import 'package:flutter_installer/src/ui/widgets/expanded_container.dart';
 import './summary_view_model.dart';
 
 class SummaryView extends StatelessWidget {
-  final Function() onBackPressed;
-  final Function() onInstallPressed;
-  final UserChoice userChoice;
+  final VoidCallback onBackPressed;
+  final VoidCallback onInstallPressed;
+  final UserChoice? userChoice;
 
   const SummaryView({
-    @required this.onInstallPressed,
-    @required this.onBackPressed,
-    @required this.userChoice,
+    required this.onInstallPressed,
+    required this.onBackPressed,
+    this.userChoice,
   });
 
   @override
@@ -30,8 +29,10 @@ class SummaryView extends StatelessWidget {
       builder: (
         BuildContext context,
         SummaryViewModel model,
-        Widget child,
+        Widget? child,
       ) {
+        final String? installationPath = userChoice?.installationPath;
+
         return Scaffold(
           body: SafeArea(
             child: Center(
@@ -66,7 +67,6 @@ class SummaryView extends StatelessWidget {
                           ),
                           child: Container(
                             width: blockSize(context) * 50,
-                            height: blockSize(context) * 20,
                             padding: EdgeInsets.all(
                               blockSize(context) * 3,
                             ),
@@ -93,11 +93,11 @@ class SummaryView extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        userChoice.installationPath != null
+                                        installationPath != null
                                             ? '• Path: ' +
                                                 locator<Utils>()
                                                     .clipTextFromMiddle(
-                                                  userChoice.installationPath,
+                                                  installationPath,
                                                 )
                                             : '• Path: Not Specified',
                                         textAlign: TextAlign.start,
@@ -108,7 +108,9 @@ class SummaryView extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      if (userChoice.installVisualStudioCode)
+                                      if (userChoice
+                                              ?.installVisualStudioCode ??
+                                          false)
                                         Text(
                                           '• Visual Studio Code Latest Version',
                                           textAlign: TextAlign.start,
@@ -118,7 +120,8 @@ class SummaryView extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      if (userChoice.installAndroidStudio)
+                                      if (userChoice?.installAndroidStudio ??
+                                          false)
                                         Text(
                                           '• Android Studio Latest Version',
                                           textAlign: TextAlign.start,
@@ -128,7 +131,8 @@ class SummaryView extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      if (userChoice.installIntelliJIDEA)
+                                      if (userChoice?.installIntelliJIDEA ??
+                                          false)
                                         Text(
                                           '• IntelliJ IDEA Latest Version',
                                           textAlign: TextAlign.start,
@@ -138,7 +142,7 @@ class SummaryView extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      if (userChoice.installGit)
+                                      if (userChoice?.installGit ?? false)
                                         Text(
                                           '• Git',
                                           textAlign: TextAlign.start,

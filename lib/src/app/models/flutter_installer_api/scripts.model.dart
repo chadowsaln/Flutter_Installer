@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter_installer/src/app/models/flutter_installer_api/script_release.model.dart';
 
 class Scripts {
@@ -9,13 +7,13 @@ class Scripts {
   final ScriptRelease dist;
 
   const Scripts({
-    @required this.appendToPath,
-    @required this.dist,
+    required this.appendToPath,
+    required this.dist,
   });
 
   Scripts copyWith({
-    ScriptRelease appendToPath,
-    ScriptRelease dist,
+    ScriptRelease? appendToPath,
+    ScriptRelease? dist,
   }) {
     return Scripts(
       appendToPath: appendToPath ?? this.appendToPath,
@@ -32,15 +30,16 @@ class Scripts {
 
   factory Scripts.fromMap(Map<String, dynamic> map) {
     return Scripts(
-      appendToPath: ScriptRelease.fromMap(map['append_to_path']),
-      dist: ScriptRelease.fromMap(map['dist']),
+      appendToPath:
+          ScriptRelease.fromMap(map['append_to_path'] as Map<String, dynamic>),
+      dist: ScriptRelease.fromMap(map['dist'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Scripts.fromJson(String source) =>
-      Scripts.fromMap(json.decode(source));
+      Scripts.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Scripts(appendToPath: $appendToPath, dist: $dist)';

@@ -6,4 +6,4 @@ import 'locator.config.dart';
 final locator = GetIt.instance;
 
 @injectableInit
-void setupLocator() => $initGetIt(locator);
+void setupLocator() => locator.init();

@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:flutter_installer/src/ui/global/ui_helpers.dart';
 import 'package:flutter_installer/src/ui/views/startup/startup_view_model.dart';
 
+@RoutePage()
 class StartupView extends StatefulWidget {
   @override
   _StartupViewState createState() => _StartupViewState();
@@ -14,13 +16,13 @@ class _StartupViewState extends State<StartupView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartupViewModel>.reactive(
       viewModelBuilder: () => StartupViewModel(),
-      onModelReady: (StartupViewModel model) async {
+      onViewModelReady: (StartupViewModel model) async {
         await model.handleStartup();
       },
       builder: (
         BuildContext context,
         StartupViewModel model,
-        Widget child,
+        Widget? child,
       ) {
         model.initializeWindowSize();
 
@@ -37,7 +39,7 @@ class _StartupViewState extends State<StartupView> {
                 verticalSpaceLarge(context),
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(
-                    Theme.of(context).accentColor,
+                    Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ],
