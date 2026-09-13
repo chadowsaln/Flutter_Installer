@@ -23,7 +23,7 @@ Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
 
 ## Wanna do it the quick way? We have binaries built!
 
-> ### Step 1: Go to [Latest Release](https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/latest)
+> ### Step 1: Go to [Latest Release](https://github.com/chadowsaln/Flutter_Installer/releases/latest)
 >
 > ### Step: 2 Download the binary that corresponds to your OS
 >
@@ -40,7 +40,7 @@ Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
 > **Linux**
 >
 > ```bash
-> wget https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_linux.zip
+> wget https://github.com/chadowsaln/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_linux.zip
 > unzip flutter_installer_v0.0.8_linux.zip
 > ./flutter_installer
 > ```
@@ -48,7 +48,7 @@ Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
 > **macOS**
 >
 > ```bash
-> curl -LO https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_macos.zip
+> curl -LO https://github.com/chadowsaln/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_macos.zip
 > unzip flutter_installer_v0.0.8_macos.zip
 > cp -r "Flutter Installer.app" /Applications
 > open /Applications/Flutter\ Installer.app
@@ -57,7 +57,7 @@ Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
 > **Windows (PowerShell)**
 >
 > ```powershell
-> curl.exe -L -o flutter_installer.zip https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_windows.zip
+> curl.exe -L -o flutter_installer.zip https://github.com/chadowsaln/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_windows.zip
 > Expand-Archive flutter_installer.zip -DestinationPath .
 > .\Flutter Installer.exe
 > ```
