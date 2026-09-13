@@ -49,7 +49,7 @@
 >
 > ```bash
 > wget https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_linux.zip
-> unzip flutter_installer_v0.0.8_linux.zip
+> unzip -o flutter_installer_v0.0.8_linux.zip
 > cd flutter_installer_v0.0.8_linux && ./flutter_installer
 > ```
 >
@@ -57,7 +57,7 @@
 >
 > ```bash
 > curl -LO https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_macos.zip
-> unzip flutter_installer_v0.0.8_macos.zip
+> unzip -o flutter_installer_v0.0.8_macos.zip
 > cp -r "Flutter Installer.app" /Applications
 > open "/Applications/Flutter Installer.app"
 > ```
