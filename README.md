@@ -50,7 +50,7 @@
 > ```bash
 > wget https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_linux.zip
 > unzip flutter_installer_v0.0.8_linux.zip
-> ./flutter_installer
+> cd flutter_installer_v0.0.8_linux && ./flutter_installer
 > ```
 >
 > **macOS**
@@ -59,7 +59,7 @@
 > curl -LO https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_macos.zip
 > unzip flutter_installer_v0.0.8_macos.zip
 > cp -r "Flutter Installer.app" /Applications
-> open /Applications/Flutter\ Installer.app
+> open "/Applications/Flutter Installer.app"
 > ```
 >
 > **Windows (PowerShell)**
@@ -67,6 +67,7 @@
 > ```powershell
 > curl.exe -L -o flutter_installer.zip https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_windows.zip
 > Expand-Archive flutter_installer.zip -DestinationPath .
+> cd flutter_installer_v0.0.8_windows
 > .\Flutter Installer.exe
 > ```
 
