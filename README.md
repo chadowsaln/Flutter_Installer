@@ -93,7 +93,7 @@ This project is licensed under an MIT license 🚀
 
 <p align="center">
   <em>By Idoumou Chekhne Ahmed Ibrahim — Shadow Dev</em><br/>
-  Build your next app with Flutter. · Windows · Linux · macOS
+  SAME LANGUAGE · BIGGER DREAMS · Windows · Linux · macOS
 </p>
 
 [github_social_preview]: assets/misc/github_social_preview_FULL.png
