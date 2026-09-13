@@ -310,9 +310,25 @@ Future<String> _runDistDotSh({
   List<ProcessResult> distroNameList = await shell.run('''
   bash \"${await _localStorageService.getTempDirectoryPath()}/$tempDirName/dist.sh\"
   ''');
-  final String distroName = distroNameList[0].stdout;
+  final String distroName = distroNameList[0].stdout.trim();
   logger.i('Distro Name: $distroName');
   return distroName;
+}
+
+/// detect the package manager installed on the system
+/// works on all major Linux distros & BSDs, regardless of `dist.sh` result
+Future<String> _detectPackageManager(Shell shell) async {
+  List<ProcessResult> packageManagerList = await shell.run('''
+    for pm in apt dnf pacman zypper apk pkg_add pkg; do
+      if command -v "\$pm" >/dev/null 2>&1; then
+        echo "\$pm"
+        exit 0
+      fi
+    done
+    echo "unknown"
+    ''');
+  String packageManager = packageManagerList[0].stdout.trim();
+  return packageManager;
 }
 
 /// download Flutter SDK for Linux using `curl`
@@ -421,6 +437,40 @@ Future<void> _runAddFlutterToPathScript({
   );
 }
 
+/// fallback: map a known `distroName` to its package manager
+String _packageManagerFromDistro(String distro) {
+  switch (distro) {
+    case "ubuntu":
+    case "debian":
+    case "linuxmint":
+    case "elementary":
+    case "pop":
+    case "mx":
+      return "apt";
+    case "archlinux":
+    case "manjaro":
+      return "pacman";
+    case "fedora":
+    case "fedora-ora":
+    case "redhat":
+    case "centos":
+      return "dnf";
+    case "opensuse":
+      return "zypper";
+    case "alpine":
+      return "apk";
+    case "OpenBSD":
+      return "pkg_add";
+    case "NetBSD":
+    case "FreeBSD":
+      return "pkg";
+    case "solaris":
+      return "pkgutil";
+    default:
+      return "unknown";
+  }
+}
+
 /// install `git` for linux
 Future<void> _installGit({
   required double percentage,
@@ -440,40 +490,58 @@ Future<void> _installGit({
     logger.i(
       'Started Downloading Git For Linux',
     );
-    switch (distroName) {
-      case "ubuntu":
-      case "debian":
+    String packageManager = await _detectPackageManager(shell);
+    if (packageManager == 'unknown') {
+      packageManager = _packageManagerFromDistro(distroName);
+    }
+    logger.i(
+      'Installing Git using package manager "$packageManager" on "$distroName"',
+    );
+    switch (packageManager) {
+      case "apt":
         await shell.run('''
         sudo apt install git -y
         ''');
         break;
-      case "archlinux":
+      case "dnf":
         await shell.run('''
-        sudo pacman -S git -y
+        sudo dnf install git -y
         ''');
         break;
-      case "opensuse":
+      case "pacman":
         await shell.run('''
-        sudo zypper install git -y
+        sudo pacman -S --noconfirm git
         ''');
         break;
-      case "OpenBSD":
+      case "zypper":
         await shell.run('''
-        sudo pkg_add git -y
+        sudo zypper --non-interactive install git -y
         ''');
         break;
-      case "NetBSD":
-      case "FreeBSD":
+      case "apk":
         await shell.run('''
-        sudo pkg install git -y
+        sudo apk add git
         ''');
         break;
-      case "solaris":
+      case "pkg_add":
+        await shell.run('''
+        sudo pkg_add -y git
+        ''');
+        break;
+      case "pkg":
+        await shell.run('''
+        sudo pkg install -y git
+        ''');
+        break;
+      case "pkgutil":
         await shell.run('''
         sudo pkgutil -i git -y
         ''');
         break;
-      // default:
+      default:
+        logger.w(
+          'Could not detect a supported package manager, skipping Git installation',
+        );
     }
     logger.i(
       'Finished Downloading Git For Linux',
