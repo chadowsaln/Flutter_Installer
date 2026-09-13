@@ -35,6 +35,33 @@ Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
 >
 > #### For macOS, just copy the `Flutter Installer.app` package to applications and start using it. requires `brew`
 
+> #### Download via command line
+>
+> **Linux**
+>
+> ```bash
+> wget https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_linux.zip
+> unzip flutter_installer_v0.0.8_linux.zip
+> ./flutter_installer
+> ```
+>
+> **macOS**
+>
+> ```bash
+> curl -LO https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_macos.zip
+> unzip flutter_installer_v0.0.8_macos.zip
+> cp -r "Flutter Installer.app" /Applications
+> open /Applications/Flutter\ Installer.app
+> ```
+>
+> **Windows (PowerShell)**
+>
+> ```powershell
+> curl.exe -L -o flutter_installer.zip https://github.com/YazeedAlKhalaf/Flutter_Installer/releases/download/v0.0.8/flutter_installer_v0.0.8_windows.zip
+> Expand-Archive flutter_installer.zip -DestinationPath .
+> .\Flutter Installer.exe
+> ```
+
 ## Requirements to build project:
 
 `Flutter` obviously 🚀
