@@ -1,25 +1,33 @@
+<p align="center">
+  <strong>Shadow Dev</strong> — Idoumou Chekhne Ahmed Ibrahim<br/>
+  BUILD · LEARN · CREATE
+</p>
+
 <div style="display: flex; align-items: center; font-size: 25px; justify-content: space-around;">
   <img src="assets/images/flutter_installer_logo.png" width="150px" />
   <h1>Flutter Installer</h1>
 </div>
 
-Flutter Installer is an installer for Flutter built with Flutter 💙😎✌
+<p align="center"><em>The easiest way to install and manage Flutter SDK on your system.</em></p>
+
+![Flutter Installer Banner](assets/misc/github_social_preview_FULL.png)
+
+<p align="center">
+  <a href="https://github.com/chadowsaln/Flutter_Installer"><strong>Available on GitHub → chadowsaln/Flutter_Installer</strong></a>
+</p>
 
 > Flutter and the related logo are trademarks of Google LLC. We are not endorsed by or affiliated with Google LLC.
 
 ## Features
 
-- Install Flutter using a GUI interface, helpful for beginners and experts
-- Install software required by Flutter, so it is an all-in-one solution
+| One Click Installation | Automatic Dependencies | Multiple Platforms | Clean & Modern UI |
+|---|---|---|---|
+| Get Flutter up and running in minutes. | Handles everything for you. | Windows / Linux / macOS (Desktop Targets) | Simple, fast and user-friendly. |
+
 - Built using Flutter 💙
 - Beautiful UI ✨
 - Support for Dark mode 👀
-- Supports 3 Platforms:
-  - Windows
-  - macOS
-  - Linux
-
-![github_social_preview]
+- Supports 3 Platforms: Windows · macOS · Linux
 
 ## Wanna do it the quick way? We have binaries built!
 
@@ -80,5 +88,12 @@ You can contribute by doing one of the following:
 ## License
 
 This project is licensed under an MIT license 🚀
+
+---
+
+<p align="center">
+  <em>By Idoumou Chekhne Ahmed Ibrahim — Shadow Dev</em><br/>
+  Build your next app with Flutter. · Windows · Linux · macOS
+</p>
 
 [github_social_preview]: assets/misc/github_social_preview_FULL.png
